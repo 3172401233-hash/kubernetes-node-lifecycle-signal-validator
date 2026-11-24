@@ -1,0 +1,25 @@
+{
+  "node": "worker-1",
+  "tick": 5,
+  "duration": 90,
+  "lease": {"duration": 40, "renews": [0, 10, 20]},
+  "ready_conditions": [[0, true], [65, false]],
+  "shutdown_events": [25],
+  "taints": [
+    {
+      "key": "node.kubernetes.io/not-ready",
+      "effect": "NoExecute",
+      "observed_at": 70
+    }
+  ],
+  "pods": [
+    {"name": "web", "grace": 0, "grace_period": 10},
+    {"name": "api", "grace_period": 20, "toleration_seconds": 5},
+    {
+      "name": "db",
+      "stateful": true,
+      "grace_period": 15,
+      "migration": {"target": "worker-2", "start_at": 30, "duration": 40}
+    }
+  ]
+}
